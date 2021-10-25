@@ -5,6 +5,7 @@ import {
   Route
 } from "react-router-dom"
 
+import Navbar from './components/Navbar'
 import Homepage from './pages/Homepage'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <Navbar />
         <Switch>
           <Route path='/' exact component={Homepage} />
           <Route path='/signup' exact component={Signup} />
