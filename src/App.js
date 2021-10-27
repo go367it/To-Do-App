@@ -20,7 +20,7 @@ function App() {
           <Route path='/' exact component={Homepage} />
           <Route path='/signup' exact component={Signup} />
           <Route path='/signin' exact component={Login} />
-          <Route path='/tasks' exact component={Tasks} />
+          <Route path={['/manage/projects','/manage/analysis/','/manage/tasks','/manage/notes']} exact component={Tasks} />
         </Switch>
       </Router>
     </div>
