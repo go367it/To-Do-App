@@ -27,7 +27,7 @@ const Navbar = () => {
                     <a>Team</a>
                     <a>Login</a>
 
-                    <button className="bg-blue-700 py-2 px-4 rounded-full mr-10 text-white 
+                    <button className="bg-blue-500 py-2 px-4 rounded-sm mr-10 text-white 
                     hover:bg-blue-600 transition duration-300 ease-in-out">
                         Join Now
                     </button>
@@ -46,23 +46,23 @@ const Navbar = () => {
             {/* list for mobile view */}
             <div className="mobile-menu hidden md:hidden p-5 w-screen" toggle="hidden">
 
-                <button className="w-full py-2 px-4 rounded-sm mr-10 
+                <button className="bg-gray-100 my-2 w-full py-2 px-4 rounded-sm mr-10 
                     hover:bg-gray-300 transition duration-300 ease-in-out">
                     Home
                 </button>
-                <button className="w-full py-2 px-4 rounded-sm mr-10 
+                <button className="bg-gray-100 my-2 w-full py-2 px-4 rounded-sm mr-10 
                     hover:bg-gray-300 transition duration-300 ease-in-out">
                     About Us
                 </button>
-                <button className="w-full py-2 px-4 rounded-sm mr-10 
+                <button className="bg-gray-100 my-2 w-full py-2 px-4 rounded-sm mr-10 
                     hover:bg-gray-300 transition duration-300 ease-in-out">
                     Team
                 </button>
-                <button className="w-full py-2 px-4 rounded-sm mr-10 
+                <button className="bg-gray-100 my-2 w-full py-2 px-4 rounded-sm mr-10 
                     hover:bg-gray-300 transition duration-300 ease-in-out">
                     Login
                 </button>
-                <button className="w-full my-2 bg-blue-700 py-2 px-4 rounded-sm mr-10 text-gray-50 
+                <button className="bg-blue-500 my-2 w-full py-2 px-4 rounded-lg mr-10 text-white 
                     hover:bg-blue-600 transition duration-300 ease-in-out">
                     Join Now
                 </button>
