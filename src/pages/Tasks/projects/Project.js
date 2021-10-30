@@ -1,15 +1,21 @@
-import React from "react";
+import React,{useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {createProject} from '../../../actions/index';
 
-export default function Modal() {
+export function Modal() {
   const [showModal, setShowModal] = React.useState(false);
   return (
     <>
       <button
-        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        className="px-2 rounded-md py-2 border-2 bg-gray-50
+        hover:text-blue-500 hover:bg-gray-100 transition duration-400
+        "
         type="button"
         onClick={() => setShowModal(true)}
       >
-        Open regular modal
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+        </svg>
       </button>
       {showModal ? (
         <>
@@ -69,3 +75,37 @@ export default function Modal() {
     </>
   );
 }
+
+const Projects = () =>{
+
+  let projects = useSelector((state)=>state.createProject.projects)
+  const dispatch = useDispatch()
+
+  // whenever the components loads it will fetch the data from the localstorage and update the store
+  useEffect(()=>{
+
+    const data = JSON.parse(localStorage.getItem('projects')) 
+    dispatch(createProject(data))
+
+  },[projects])
+
+  return(
+    <div>
+
+      <div className="heading flex justify-between px-3 py-3">
+        
+        <h1 className="text-3xl font-semibold">Projects Board</h1>
+
+        <div className="add">
+
+          <Modal />
+
+        </div>
+
+      </div>
+
+    </div>
+  )
+}
+
+export default Projects
