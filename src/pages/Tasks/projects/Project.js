@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {createProject} from '../../../actions/index';
 
 export function Modal() {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false); // to set the state of the modal
+
+  const dispatch = useDispatch()
+
   return (
     <>
       <button
@@ -24,31 +27,57 @@ export function Modal() {
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-sm shadow-lg relative flex flex-col w-full bg-white">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
-                    Modal Title
+                <div className="flex items-start w-1xl justify-between p-5 rounded-t">
+                  <h3 className="text-2xl font-semibold">
+                    Project Details
                   </h3>
                   <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="text-gray-400 px-2 py-2 rounded-sm hover:bg-gray-200
+                    hover:text-gray-500 focus:ring-2 focus:ring-gray-300 focus:bg-gray-50
+                    transition duratioin-300
+                    "
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
-                    </span>
+                    
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    I always felt like I could do anything. That’s the main
-                    thing people are controlled by! Thoughts- their perception
-                    of themselves! They're slowed down by their perception of
-                    themselves. If you're taught you can’t do anything, you
-                    won’t do anything. I was taught I could do everything.
-                  </p>
+                <div className="relative px-4 text-left flex-auto">
+
+                  <div className="">
+
+                    <label>
+                      Title
+                    </label>
+                    
+                    <input 
+                    className="py-2 p-1 border-2 border-gray-200 outline-none rounded-md 
+                    focus:ring-2 focus:ring-offset-0 focus:ring-blue-600 w-full focus:border-0
+                    my-2 transition duratioin-300
+                    "
+                    placeholder="project title"
+                    />
+
+                    <label>
+                      Description
+                    </label>
+                    
+                    <textarea id="description" rows="3" 
+                    className="p-1 border-2 border-gray-200 outline-none rounded-md 
+                    focus:ring-2 focus:ring-offset-0 focus:ring-blue-600 w-full focus:border-0
+                    my-2" placeholder="type description here">
+
+                    </textarea>
+
+                  </div>
                 </div>
+                
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button
@@ -59,7 +88,7 @@ export function Modal() {
                     Close
                   </button>
                   <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowModal(false)}
                   >

@@ -6,8 +6,17 @@ const handleProject = (state = initialState, action) =>{
 
     switch(action.type){
         case 'CREATEPROJECT': {
-            return{
 
+            const {data} = action.payload;
+
+            return{
+                ...state,
+                project: [
+                    ...state.projects,
+                    {
+                        data: data,
+                    }
+                ]
             }
         }
 
