@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react'
 import Projects from './projects/Project'
+import React from 'react'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
