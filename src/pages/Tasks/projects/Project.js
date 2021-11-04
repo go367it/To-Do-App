@@ -1,11 +1,49 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Fade from "react-reveal/Fade";
 import { createProject } from "../../../actions/index";
 
 export function Modal() {
   const [showModal, setShowModal] = React.useState(false); // to set the state of the modal
+  const [getTitle, setGetTitle] = useState("");
+  const [getDesc, setGetDesc] = useState("");
+
+  // to get the todays date
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const todayDate = String(date.getDate()).padStart(2, "0");
+  const datePattern = `${year}-${month}-${todayDate}`;
 
   const dispatch = useDispatch();
+
+  // function for creating project
+  const addProject = () => {
+    const currentData = {
+      id: new Date().getTime().toString(),
+      title: getTitle,
+      desc: getDesc,
+      created: datePattern,
+    };
+    console.log("dasf");
+    const projectData = localStorage.getItem("projects");
+
+    let projectData2 = JSON.parse(projectData);
+
+    projectData2.push(currentData);
+
+    localStorage.setItem("projects", JSON.stringify(projectData2));
+
+    console.log(JSON.parse(localStorage.getItem("projects")), "36");
+
+    // // const newData = JSON.parse(localStorage.getItem('projects'))
+
+    dispatch(createProject(currentData));
+
+    // clearing the data
+    setGetDesc("");
+    setGetTitle("");
+  };
 
   return (
     <>
@@ -36,87 +74,93 @@ export function Modal() {
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-sm shadow-lg relative flex flex-col w-full bg-white">
-                {/*header*/}
-                <div className="flex items-start w-1xl justify-between p-5 rounded-t">
-                  <h3 className="text-2xl font-semibold">Project Details</h3>
-                  <button
-                    className="text-gray-400 px-2 py-2 rounded-sm hover:bg-gray-200
-                    hover:text-gray-500 focus:ring-2 focus:ring-gray-300 focus:bg-gray-50
+              <Fade>
+                <div className="border-0 rounded-3xl shadow-lg relative flex flex-col w-full bg-white">
+                  {/*header*/}
+
+                  <div className="flex items-start w-1xl justify-between p-5 rounded-t">
+                    <h3 className="text-2xl font-semibold">Project Details</h3>
+                    <button
+                      className="text-gray-400 px-1 py-1 rounded-full
+                    hover:text-blue-500
                     transition duratioin-300
                     "
-                    onClick={() => setShowModal(false)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                      onClick={() => setShowModal(false)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                {/*body*/}
-                <div className="relative px-4 text-left flex-auto">
-                  <div className="">
-                    <label>Title</label>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  {/*body*/}
+                  <div className="relative px-4 text-left flex-auto">
+                    <div className="">
+                      <label>Title</label>
 
-                    <input
-                      className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md 
+                      <input
+                        className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md 
                     focus:ring-2 focus:ring-offset-0 focus:ring-blue-600 w-full focus:border-0
                     my-2 transition duratioin-300
                     "
-                      placeholder="project title"
-                    />
+                        onChange={(e) => setGetTitle(e.target.value)}
+                        value={getTitle}
+                        placeholder="project title"
+                      />
 
-                    <label>Description</label>
+                      <label>Description</label>
 
-                    <textarea
-                      id="description"
-                      rows="3"
-                      className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md 
+                      <textarea
+                        id="description"
+                        rows="3"
+                        className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md 
                     focus:ring-2 focus:ring-offset-0 focus:ring-blue-600 w-full focus:border-0
                     my-2"
-                      placeholder="type description here"
-                    ></textarea>
+                        placeholder="type description here"
+                        value={getDesc}
+                        onChange={(e) => setGetDesc(e.target.value)}
+                      ></textarea>
 
-                    <label>Start</label>
+                      <label>Start</label>
 
-                    <input id="startDate" type="date"
-                    className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md
+                      <input
+                        id="startDate"
+                        type="date"
+                        value={datePattern}
+                        disabled
+                        className="py-2 px-2 border-2 border-gray-200 outline-none rounded-md
                     focus:ring-2 focus:ring-offset-0 focus:ring-blue-600 w-full focus:border-0
                     my-2
                     "
-                    onChange={(e)=>console.log(e.target.value)}
-                    />
+                      />
+                    </div>
+                  </div>
+
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-4 rounded-b">
+                    <button
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium 
+                      text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 
+                      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 
+                      focus-visible:ring-blue-500"
+                      type="button"
+                      onClick={() => addProject()}
+                    >
+                      Create Project
+                    </button>
                   </div>
                 </div>
-
-                {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                  <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="bg-emerald-500 active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
+              </Fade>
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
@@ -127,14 +171,18 @@ export function Modal() {
 }
 
 const Projects = () => {
-  let projects = useSelector((state) => state.createProject.projects);
   const dispatch = useDispatch();
+  const myList = useSelector((state) => state.handleProject.projects);
 
   // whenever the components loads it will fetch the data from the localstorage and update the store
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("projects"));
-    dispatch(createProject(data));
-  }, [projects]);
+    const data = localStorage.getItem("projects");
+    const data2 = JSON.parse(data);
+    data2.map(j=>{
+      dispatch(createProject(j))
+    })
+    // dispatch(createProject(JSON.parse(localStorage.getItem('projects'))))
+  }, []);
 
   return (
     <div>
@@ -144,6 +192,16 @@ const Projects = () => {
         <div className="add">
           <Modal />
         </div>
+
+        {
+          myList.map(j=>{
+            return(
+              <div key={j.id}>
+                {j.title}
+              </div>
+            )
+          })
+        }
       </div>
     </div>
   );

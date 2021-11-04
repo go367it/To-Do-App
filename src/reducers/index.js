@@ -1,8 +1,8 @@
-import createProject from './createProject'
+import handleProject from './handleProject'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
-    createProject
+    handleProject
 })
 
 export default rootReducer

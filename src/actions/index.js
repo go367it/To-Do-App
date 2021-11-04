@@ -1,8 +1,8 @@
-export const createProject = () =>{
+export const createProject = (data) =>{
     return{
         type: 'CREATEPROJECT',
         payload : {
-            data : []
+            data : data
         }
     }
 }

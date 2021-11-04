@@ -11,7 +11,7 @@ const handleProject = (state = initialState, action) =>{
 
             return{
                 ...state,
-                project: [
+                projects: [
                     ...state.projects,
                     {
                         data: data,
