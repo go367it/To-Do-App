@@ -6,3 +6,12 @@ export const createProject = (data) =>{
         }
     }
 }
+
+export const deleteProject = (data) =>{
+    return{
+        type: 'DELETEPROJECT',
+        payload : {
+            data : data
+        }
+    }
+}
