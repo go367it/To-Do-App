@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Fade from "react-reveal/Fade";
 import { createProject, deleteProject } from "../../../actions/index";
 import { Menu, Transition } from "@headlessui/react";
-import FolderIcon from '@heroicons/react/solid/FolderIcon'
-import Calendar from '@heroicons/react/outline/CalendarIcon'
-import TrashIcon from '@heroicons/react/outline/TrashIcon'
-import PencilIcon from '@heroicons/react/outline/PencilIcon'
+import FolderIcon from "@heroicons/react/solid/FolderIcon";
+import Calendar from "@heroicons/react/outline/CalendarIcon";
+import TrashIcon from "@heroicons/react/outline/TrashIcon";
+import PencilIcon from "@heroicons/react/outline/PencilIcon";
 
 export function Modal() {
   const [showModal, setShowModal] = React.useState(false); // to set the state of the modal
@@ -49,7 +49,7 @@ export function Modal() {
       // clearing the data
       setGetDesc("");
       setGetTitle("");
-      setShowModal(false)
+      setShowModal(false);
     }
   };
 
@@ -193,9 +193,9 @@ const Projects = () => {
   }, []);
 
   // function to delete a project from the list
-  const deleteFromProject = () =>{
-
-  }
+  const deleteFromProject = (id) => {
+    dispatch(deleteProject(id));
+  };
 
   return (
     <div>
@@ -219,14 +219,13 @@ const Projects = () => {
                 "
               >
                 <div className="w-full">
-
-                  <div className="flex justify-between w-full bg-white p-4 rounded-t-md
-                  ">
+                  <div
+                    className="flex justify-between w-full bg-white p-4 rounded-t-md
+                  "
+                  >
                     <div className="flex truncate items-center justify-left gap-2 font-semibold">
                       <FolderIcon className="h-7 w-7 text-yellow-400" />
-                      <p className="flex truncate ...">
-                        {j.data.title}
-                      </p>
+                      <p className="flex truncate ...">{j.data.title}</p>
                     </div>
 
                     <Menu as="div" className="relative inline-block text-left">
@@ -263,20 +262,21 @@ const Projects = () => {
                                       : "text-gray-900 gap-2"
                                   } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                 >
-                                <PencilIcon className="w-4 h-4" />  Edit
+                                  <PencilIcon className="w-4 h-4" /> Edit
                                 </button>
                               )}
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
                                 <button
+                                  onClick={() => deleteFromProject(j.data.id)}
                                   className={`${
                                     active
                                       ? "bg-indigo-500 text-white gap-2"
                                       : "text-gray-900 gap-2"
                                   } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                 >
-                                <TrashIcon className="w-4 h-4" />  Delete
+                                  <TrashIcon className="w-4 h-4" /> Delete
                                 </button>
                               )}
                             </Menu.Item>
@@ -284,21 +284,17 @@ const Projects = () => {
                         </Menu.Items>
                       </Transition>
                     </Menu>
-
                   </div>
-                  
+
                   <hr />
 
-                  <div className='description mt-4 w-full p-4'>
-                    <p className="text-sm truncate ...">
-                      {j.data.desc}
-                    </p>
+                  <div className="description mt-4 w-full p-4">
+                    <p className="text-sm truncate ...">{j.data.desc}</p>
                     <p className="flex gap-1 text-gray-500 items-center justify-end mt-2 text-xs text-right">
                       <Calendar className="h-4 w-4" />
                       {j.data.created}
                     </p>
                   </div>
-
                 </div>
               </div>
             </Fade>

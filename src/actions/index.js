@@ -7,11 +7,9 @@ export const createProject = (data) =>{
     }
 }
 
-export const deleteProject = (data) =>{
+export const deleteProject = (id) =>{
     return{
         type: 'DELETEPROJECT',
-        payload : {
-            data : data
-        }
+        id
     }
 }
