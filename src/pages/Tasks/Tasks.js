@@ -2,6 +2,9 @@ import { Tab } from "@headlessui/react";
 import Projects from "./projects/Project";
 import React from "react";
 import Fade from "react-reveal/Fade";
+import Notes from './notes/Notes'
+import TasksSection from './tasks/Tasks'
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -102,6 +105,22 @@ export default function Example() {
             <Tab.Panels className="mt-2">
               <Tab.Panel key="1">
                 <Projects />
+                {/* <Notes /> */}
+              </Tab.Panel>
+            </Tab.Panels>
+            <Tab.Panels className="mt-2">
+              <Tab.Panel key="2">
+                dagh
+              </Tab.Panel>
+            </Tab.Panels>
+            <Tab.Panels className="mt-2">
+              <Tab.Panel key="3">
+                <TasksSection />
+              </Tab.Panel>
+            </Tab.Panels>
+            <Tab.Panels className="mt-2">
+              <Tab.Panel key="4">
+                <Notes />
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

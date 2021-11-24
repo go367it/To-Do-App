@@ -6,9 +6,6 @@ import {
 } from "react-router-dom"
 import React from 'react';
 import Navbar from './components/Navbar'
-import Homepage from './pages/Homepage'
-import Signup from './pages/Signup'
-import Login from './pages/Login'
 import Tasks from './pages/Tasks/Tasks'
 
 function App() {
@@ -17,10 +14,7 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
-          <Route path='/' exact component={Homepage} />
-          <Route path='/signup' exact component={Signup} />
-          <Route path='/signin' exact component={Login} />
-          <Route path={['/manage']} exact component={Tasks} />
+          <Route path='/' exact component={Tasks} />
         </Switch>
       </Router>
     </div>

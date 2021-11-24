@@ -182,18 +182,31 @@ const Projects = () => {
 
   // whenever the components loads it will fetch the data from the localstorage and update the store
   useEffect(() => {
-    const data = localStorage.getItem("projects");
-    const data2 = JSON.parse(data);
-    if (myList.length == 0) {
-      data2.map((j) => {
-        dispatch(createProject(j));
-      });
+    if (!localStorage.getItem("projects")) {
+      const projects = [];
+      localStorage.setItem("projects", JSON.stringify(projects));
+    } else {
+      console.log(localStorage.getItem("projects"));
+      const data = localStorage.getItem("projects");
+      const data2 = JSON.parse(data);
+      if (myList.length == 0) {
+        data2.map((j) => {
+          dispatch(createProject(j));
+        });
+      }
     }
+
     // dispatch(createProject(JSON.parse(localStorage.getItem('projects'))))
   }, []);
 
   // function to delete a project from the list
   const deleteFromProject = (id) => {
+    const data = localStorage.getItem("projects");
+    const data2 = JSON.parse(data);
+    console.log(data2);
+    const newList = data2.filter((elem) => elem.id != id);
+    localStorage.setItem("projects", JSON.stringify(newList));
+
     dispatch(deleteProject(id));
   };
 
@@ -253,19 +266,6 @@ const Projects = () => {
                       >
                         <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <div className="px-1 py-1 ">
-                            <Menu.Item>
-                              {({ active }) => (
-                                <button
-                                  className={`${
-                                    active
-                                      ? "bg-indigo-500 text-white gap-2"
-                                      : "text-gray-900 gap-2"
-                                  } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                                >
-                                  <PencilIcon className="w-4 h-4" /> Edit
-                                </button>
-                              )}
-                            </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
                                 <button

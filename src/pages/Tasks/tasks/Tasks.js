@@ -1,9 +1,15 @@
 import React from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 const Tasks = () => {
     return (
         <div>
-            hgas
+            
+            <DragDropContext>
+                
+                
+            </DragDropContext>
+
         </div>
     )
 }

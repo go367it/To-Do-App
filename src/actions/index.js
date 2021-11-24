@@ -13,3 +13,19 @@ export const deleteProject = (id) =>{
         id
     }
 }
+
+export const createNote = (data) =>{
+    return{
+        type: 'CREATENOTE',
+        payload: {
+            data : data
+        }
+    }
+}
+
+export const deleteNote = (id) =>{
+    return{
+        type: 'DELETENOTE',
+        id
+    }
+}
