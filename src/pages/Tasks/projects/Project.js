@@ -30,6 +30,24 @@ export function Modal() {
         title: getTitle,
         desc: getDesc,
         created: datePattern,
+        tasks: [
+          {
+            title: "To Do",
+            tasks: [],
+          },
+          {
+            title: "In Progress",
+            tasks: [],
+          },
+          {
+            title: "Review",
+            tasks: [],
+          },
+          {
+            title: "Completed",
+            tasks: [],
+          },
+        ],
       };
       console.log("dasf");
       const projectData = localStorage.getItem("projects");

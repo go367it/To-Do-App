@@ -106,6 +106,7 @@ export default function Example() {
               <Tab.Panel key="1">
                 <Projects />
                 {/* <Notes /> */}
+                {/* <TasksSection /> */}
               </Tab.Panel>
             </Tab.Panels>
             <Tab.Panels className="mt-2">
