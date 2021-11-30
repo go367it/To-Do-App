@@ -104,9 +104,9 @@ export default function Example() {
             <hr />
             <Tab.Panels className="mt-2">
               <Tab.Panel key="1">
-                {/* <Projects /> */}
+                <Projects />
                 {/* <Notes /> */}
-                <TasksSection />
+                {/* <TasksSection /> */}
               </Tab.Panel>
             </Tab.Panels>
             <Tab.Panels className="mt-2">
