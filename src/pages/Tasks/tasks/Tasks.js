@@ -80,11 +80,67 @@ const Tasks = () => {
 
     projects.map((j) => {
       if (j.id == id) {
-        setProjectId(j.id)
-        setTaskTable(j.tasks)
+        setProjectId(j.id);
+        setTaskTable(j.tasks);
       }
-    })
+    });
+  };
 
+  // when drop and drop ends
+  const onDragEnd = (result) => {
+    console.log(result);
+    if (result.destination.droppableId !== result.source.droppableId) {
+      const data = tasksTable;
+      let task = {};
+
+      console.log(data[result.source.droppableId]);
+
+      for (let i = 0; i < data[result.source.droppableId].tasks.length; i++) {
+        if (
+          result.source.index == data[result.source.droppableId].tasks[i].id
+        ) {
+          console.log(data[result.source.droppableId].tasks[i]);
+          task = data[result.source.droppableId].tasks[i];
+          data[result.source.droppableId].tasks.splice(i, 1);
+          break;
+        }
+      }
+
+      if (result.destination.index !== 0) {
+        for (
+          let i = 0;
+          i < data[result.destination.droppableId].tasks.length;
+          i++
+        ) {
+          if (
+            data[result.destination.droppableId].tasks[i].id ==
+              result.destination.index &&
+            result.destination.index !== 0
+          ) {
+            data[result.destination.droppableId].tasks.splice(i, 0, task);
+            break;
+          }
+        }
+      }
+
+      // when the particular list is empty
+      if (result.destination.index == 0) {
+        data[result.destination.droppableId].tasks.splice(0, 0, task);
+        console.log(data[result.destination.droppableId].tasks);
+      }
+
+      setTaskTable(data);
+
+      const projects = JSON.parse(localStorage.getItem("projects"));
+      console.log(projects);
+      for (let i = 0; i < projects.length; i++) {
+        if (projects[i].id == projectId) {
+          projects[i].tasks = tasksTable;
+        }
+      }
+
+      localStorage.setItem("projects", JSON.stringify(projects));
+    }
   };
 
   return (
@@ -108,26 +164,33 @@ const Tasks = () => {
       </div>
 
       {/* for drag and drop section */}
-      <DragDropContext onDragEnd={(result) => console.log(result)}>
+      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 my-4">
           {/* for creating mutiple columns */}
           {tasksTable.map((j, index) => {
             return (
-              <Droppable droppableId={index} key={index}>
+              <Droppable droppableId={`${index}`} key={index}>
                 {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className="border rounded-md bg-gray-100"
                   >
-                    <div className="heading bg-white w-full text-gray-400 text-left px-4 py-2">
-                      {j.title}
+                    <div className="flex gap-3 items-center heading bg-white w-full text-gray-400 text-left px-4 py-2">
+                      {j.title}{" "}
+                      <p className="p-1 rounded-md text-gray-600 bg-gray-100">
+                        {j.tasks.length}
+                      </p>
                     </div>
                     <hr />
                     <div className="bg-gray-100">
                       {j.tasks.map((i) => {
                         return (
-                          <Draggable draggableId={i.id} key={i.id}>
+                          <Draggable
+                            draggableId={i.id}
+                            index={parseInt(i.id)}
+                            key={i.id}
+                          >
                             {(provided, snapshot) => (
                               <div
                                 ref={provided.innerRef}
@@ -136,25 +199,41 @@ const Tasks = () => {
                                 className="m-1 bg-white border rounded-md p-2"
                               >
                                 <div className="priority flex justify-left">
-                                  {i.priority == "0" ? (
-                                    <div className="px-2 py-1 bg-blue-400 rounded-sm">
-                                      <p className="text-xs text-white">Low</p>
-                                    </div>
-                                  ) : i.priority == "1" ? (
-                                    <div className="px-2 py-1 bg-yellow-300 rounded-sm">
-                                      <p className="text-xs text-white">
-                                        Medium
-                                      </p>
-                                    </div>
+                                  {j.title !== "Completed" ? (
+                                    i.priority == "0" ? (
+                                      <div className="px-2 py-1 bg-green-400 rounded-sm">
+                                        <p className="text-xs text-white">
+                                          Low
+                                        </p>
+                                      </div>
+                                    ) : i.priority == "1" ? (
+                                      <div className="px-2 py-1 bg-yellow-300 rounded-sm">
+                                        <p className="text-xs text-white">
+                                          Medium
+                                        </p>
+                                      </div>
+                                    ) : (
+                                      <div className="px-2 py-1 bg-red-400 rounded-sm">
+                                        <p className="text-xs text-white">
+                                          High
+                                        </p>
+                                      </div>
+                                    )
                                   ) : (
-                                    <div className="px-2 py-1 bg-red-400 rounded-sm">
-                                      <p className="text-xs text-white">High</p>
-                                    </div>
+                                    ""
                                   )}
                                 </div>
-                                <p className="text-md text-left px-2 pt-2 font-thin text-gray-700">
-                                  {i.desc}
-                                </p>
+                                {j.title !== "Completed" ? (
+                                  <p className="text-md text-left px-2 pt-2 font-thin text-gray-700">
+                                    {i.desc}
+                                  </p>
+                                ) : (
+                                  <p className="text-md line-through text-left px-2 pt-2 font-thin text-gray-500">
+                                    {i.desc}
+                                  </p>
+                                )}
+
+                                {provided.placeholder}
                               </div>
                             )}
                           </Draggable>
