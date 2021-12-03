@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Fade from "react-reveal/Fade";
-import { useSelector, useDispatch } from 'react-redux'
-import {createNote} from '../../../actions/index'
+import { useSelector, useDispatch } from "react-redux";
+import { createNote, deleteNote } from "../../../actions/index";
+import cogoToast from "cogo-toast";
 
 // importing icons
 import { ViewGridAddIcon } from "@heroicons/react/solid";
@@ -11,17 +12,37 @@ export function Input() {
   const [title, setTitle] = useState(""); // to handle the state of the title
   const [note, setNote] = useState(""); // to handle the state of the note
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // function to create notes
-  const onClickSave = () =>{
-
-  }
+  const onClickSave = () => {
+    if ((title != "", note != "")) {
+      const currentData = {
+        id: new Date().getTime().toString(),
+        title: title,
+        note: note,
+      };
+      let notes = JSON.parse(localStorage.getItem("notes"));
+      notes.push(currentData);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      dispatch(createNote(currentData));
+      setTitle("");
+      setNote("");
+      setShowModal(false);
+      return cogoToast.success("Note Created", {
+        position: "bottom-left",
+      });
+    } else {
+      return cogoToast.info("Please enter details.", {
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <>
       <input
-        className="outline-none p-3 border border-gray-300 w-96 rounded"
+        className="outline-none p-3 border border-gray-300 w-96 rounded transition duration-400"
         placeholder="Take a note..."
         onClick={() => setShowModal(true)}
       />
@@ -88,7 +109,7 @@ export function Input() {
                 {/*footer*/}
                 <div className="flex items-center justify-end p-4 rounded-b">
                   <button
-                  onClick={()=>onClickSave()}
+                    onClick={() => onClickSave()}
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium 
                       text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 
                       focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 
@@ -109,22 +130,49 @@ export function Input() {
 }
 
 const Notes = () => {
+  const dispatch = useDispatch();
+  const myList = useSelector((state) => state.handleNotes.notes);
 
-  useEffect(()=>{
-    if(localStorage.getItem('notes')){
-      console.log(localStorage.getItem('notes'))
+  useEffect(() => {
+    if (localStorage.getItem("notes")) {
+      console.log(localStorage.getItem("notes"));
+      let notes = JSON.parse(localStorage.getItem("notes"));
+      if (myList.length == 0) {
+        notes.map((j) => {
+          dispatch(createNote(j));
+        });
+      }
+    } else {
+      const notes = [];
+      localStorage.setItem("notes", JSON.stringify(notes));
     }
-    else{
-      const notes = []
-      localStorage.setItem("notes", JSON.stringify(notes))
-    }
-  },[])
+  }, []);
 
   return (
-    <div className="flex justify-center p-2">
+    <div className="p-2">
       <Fade>
+
         <div>
           <Input />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 px-2 my-5 md:px-4">
+          {myList.map((j) => {
+            return (
+              <Fade>
+                <div
+                key={j.data.id}
+                className="border rounded-md p-2">
+                  <div className='text-xl font-semibold text-left'>
+                    {j.data.title}
+                  </div>
+                  <div className="text-md text-left py-3 px-2">
+                    {j.data.note}
+                  </div>
+                </div>
+              </Fade>
+            );
+          })}
         </div>
       </Fade>
     </div>
